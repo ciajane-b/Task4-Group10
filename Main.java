@@ -29,5 +29,32 @@ Public class Main {
               phoneCounts.put(specValue, phoneCounts.getOrDefault(specValue, 0) + 1);
           }
         }
-}
+    
+        System.out.println("=".repeat(50));
+
+        // Display audit report
+        System.out.println("\n" + "=".repeat(50));
+        System.out.println("              AUDIT REPORT");
+        System.out.println("=".repeat(50));
+
+        // Display laptops first (sorted by spec value)
+        List<Integer> sortedLaptopSpecs = new ArrayList<>(laptopCounts.keySet());
+        Collections.sort(sortedLaptopSpecs);
+        for (int spec : sortedLaptopSpecs) {
+            int count = laptopCounts.get(spec);
+            System.out.printf("total number of %dGB Laptop : %d%n", spec, count);
+        }
+
+        // Display phones next (sorted by spec value)
+        List<Integer> sortedPhoneSpecs = new ArrayList<>(phoneCounts.keySet());
+        Collections.sort(sortedPhoneSpecs);
+        for (int spec : sortedPhoneSpecs) {
+            int count = phoneCounts.get(spec);
+            System.out.printf("total number of %dMP Phone : %d%n", spec, count);
+        }
+
+        System.out.println("=".repeat(50));
+
+        repository.close();
+    }
 }
