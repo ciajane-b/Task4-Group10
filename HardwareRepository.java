@@ -77,3 +77,16 @@ private void initializeDatabase() {
             }
 
             System.out.println("Fetched " + hardwareList.size() + " records from database.");
+
+         } catch (SQLException e) {
+            System.err.println("Error fetching data: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return hardwareList;
+    }
+
+    public void close() {
+        System.out.println("Database connection closed.");
+    }
+}
