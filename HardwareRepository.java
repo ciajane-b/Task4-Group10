@@ -43,3 +43,37 @@ private void initializeDatabase() {
                 stmt.executeUpdate(insertSQL);
                 System.out.println("Database initialized with sample data.");
             }
+
+    } catch (SQLException e) {
+            System.err.println("Database initialization error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public List<Hardware> fetchData() {
+        hardwareList.clear();
+
+        String query = "SELECT * FROM hardware ORDER BY id";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String brand = rs.getString("brand");
+                String model = rs.getString("model");
+                int specValue = rs.getInt("specValue");
+                String type = rs.getString("type");
+
+                Hardware hardware;
+                if ("Laptop".equalsIgnoreCase(type)) {
+                    hardware = new Laptop(id, brand, model, specValue);
+                } else {
+                    hardware = new Phone(id, brand, model, specValue);
+                }
+
+                hardwareList.add(hardware);
+            }
+
+            System.out.println("Fetched " + hardwareList.size() + " records from database.");
